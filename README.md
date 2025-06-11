@@ -140,10 +140,83 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
 | http://localhost:3010/producto | URL gral para vizualisar todos los productos | GET | La página que busca no existe. | 404 |
 | http://localhost:3010/productos | URL gral para vizualisar todos los productos | GET | No puedo mostrar los productos. | 500 |
 
+```mermaid
+graph TD
+  A[Inicio] --> B[Instalación de MongoDB Driver + Express.js]
+  B --> C[Requerir dotenv y configurar variables de entorno]
+  C --> D[Crear archivo mongodb.js con funciones de conexión/desconexión]
+  D --> E[Configurar servidor Express y middlewares]
+  E --> F[Definir rutas de API]
 
+  F --> G[GET /productos → Obtener todos los productos]
+  F --> H[GET /productos/:cod → Buscar por código]
+  F --> I[GET /categoria/:cat → Buscar por categoría]
+  F --> J[GET /precio/:precio → Buscar por precio]
+  F --> K[POST /productos → Crear nuevo producto]
+  F --> L[PUT /productos/:cod → Reemplazar producto entero]
+  F --> M[PATCH /productos/:cod → Modificar parcialmente]
+  F --> N[DELETE /productos/:cod → Eliminar producto]
 
+  N --> O[Middleware 404 y escucha en puerto]
+```
 
+```mermaid
+sequenceDiagram
+  participant Cliente
+  participant Express
+  participant MongoDB
 
+  Cliente->>+Express: GET /productos
+  Express->>+MongoDB: Conectar a BD
+  MongoDB-->>Express: Datos de todos los productos
+  Express->>MongoDB: Desconectar
+  Express-->>-Cliente: Lista de productos
+
+  Cliente->>+Express: GET /productos/:cod
+  Express->>+MongoDB: Conectar a BD
+  MongoDB-->>Express: Buscar por código
+  Express->>MongoDB: Desconectar
+  Express-->>-Cliente: Producto o error
+
+  Cliente->>+Express: GET /categoria/:cat
+  Express->>+MongoDB: Conectar a BD
+  MongoDB-->>Express: Buscar por categoría
+  Express->>MongoDB: Desconectar
+  Express-->>-Cliente: Lista filtrada o error
+
+  Cliente->>+Express: GET /precio/:precio
+  Express->>+MongoDB: Conectar a BD
+  MongoDB-->>Express: Buscar por precio
+  Express->>MongoDB: Desconectar
+  Express-->>-Cliente: Lista filtrada o error
+
+  Cliente->>+Express: POST /productos
+  Express->>+MongoDB: Conectar a BD
+  MongoDB-->>Express: Verificar duplicado
+  MongoDB-->>Express: Insertar nuevo producto
+  Express->>MongoDB: Desconectar
+  Express-->>-Cliente: Producto creado o error
+
+  Cliente->>+Express: PUT /productos/:cod
+  Express->>+MongoDB: Conectar a BD
+  MongoDB-->>Express: Buscar producto
+  MongoDB-->>Express: Reemplazar con nuevo
+  Express->>MongoDB: Desconectar
+  Express-->>-Cliente: Producto modificado o error
+
+  Cliente->>+Express: PATCH /productos/:cod
+  Express->>+MongoDB: Conectar a BD
+  MongoDB-->>Express: Buscar producto
+  MongoDB-->>Express: Actualizar campos
+  Express->>MongoDB: Desconectar
+  Express-->>-Cliente: Producto actualizado o error
+
+  Cliente->>+Express: DELETE /productos/:cod
+  Express->>+MongoDB: Conectar a BD
+  MongoDB-->>Express: Buscar y eliminar
+  Express->>MongoDB: Desconectar
+  Express-->>-Cliente: Producto eliminado o error
+```
 
 
 

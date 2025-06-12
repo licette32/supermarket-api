@@ -9,14 +9,14 @@
   - [Métodos](#métodos)
 - Uso de la API
   - [GET](#get)
-  - POST
-  - PUT
-  - DELETE
-- [Test de Validaciones](#testdevalidaciones)
+  - [POST](#post)
+  - [PUT](#put)
+  - [PATCH](#patch)
+  - [DELETE](#delete)
 - [Diagramas](#diagramas)  
   - [Diagrama de Flujo](#diagrama-de-flujo)  
   - [Diagrama de Secuencia](#diagrama-de-secuencia)  
-- Autoras
+- [Autoras](#autoras)
 ***
 ***
 
@@ -117,7 +117,8 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
  | .findOne() | db.collection().findOne(obj) | Busca un documento en la collección actual, de acuerdo al objeto informado |
 
 
-## GET /
+## GET
+### /
 - Ruta principal que devuelve un mensaje de bienvenida
 
 ```js
@@ -130,7 +131,8 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
    |:---------:|:--------:|:-------------:|:------------:|:--------:|
   | http://localhost:3010/ | URL principal | GET | Devuelve 🛒 Bienvenido a APImarket 🛒 | 200 |
 
-## GET /productos
+## GET
+### /productos
 - Obtenemos la lista completa de productos almacenados en nuestra BDs.
   - Conecto la BD
   - Valido la conexión
@@ -146,7 +148,8 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
     | http://localhost:3010/producto | Ruta inexistente | GET | La página que busca no existe. | 404 |
     | http://localhost:3010/productos | URL gral para visualizar todos los productos | GET | No puedo mostrar los productos. | 500 |
 
-## GET /productos/:cod
+## GET
+### /productos/:cod
 - Devuelve un producto especifico según el código enviado como parámetro
   - Capturo el parámento  `:cod`
   - Valido que sea un numero mayor o igual a cero
@@ -164,7 +167,8 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
     | http://localhost:3010/productos/-6 | GET | Código inválido | Código de producto inválido | 400 |
     | http://localhost:3010/productos/avfr | GET | Código inválido | Código de producto inválido | 400 |    
 
-## GET /categoria/:cat
+## GET
+### /categoria/:cat
 - Devuelve todos los productos cuya categoría coincide (parcial/total) con el valor enviado como parámetro
   - Capturo el parámetro `:cat`
   - Valido que el valor no esté vacío
@@ -180,7 +184,8 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
     | http://localhost:3010/categoria/#doble_espacio | GET | Categoria vacia | Categoría invalida | 400 |
     | http://localhost:3010/categoria/otra | GET | Categoria inexistente | Categoría no encontrada | 404 |
 
-## GET /precio/:precio
+## GET 
+### /precio/:precio
 - Devuelve todos los productos cuyo precio sea igual o mayor al valor ingresado por parámetro
  - Capturo el parámetro `:precio`
  - Valido que el valor sea un numero mayor o igual a 0
@@ -196,7 +201,8 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
     | http://localhost:3010/precio/-5 | GET | Precio invalido | Precio invalido | 400 |
     | http://localhost:3010/precio/1500 | GET | No existen productos con ese precio | Precio no encontrado | 404 |
 
-## POST /productos
+## POST 
+### /productos
 - Crea un nuevo producto/documento en la BDs
 - Recibe un `body` con los datos del prodcuto a agregar
 - Valida el tipo y contenido de los campos
@@ -224,7 +230,8 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
     | http://localhost:3010/producto | POST | Codigo duplicado | El código del producto ya existe | 409 |
     | http://localhost:3010/producto | POST | Cualquier otro error | Error inesperado | 500 |
 
-## PUT /productos/:cod
+## PUT 
+### /productos/:cod
 - Modifica un producto pero hay que pasarle todo el documento completo
 - Se recibe el body
 - Se validan los datos
@@ -245,7 +252,8 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
     | http://localhost:3010/producto/007 | PUT | El codigo buscado no existe | El producto a modificar no existe | 404 |
     | http://localhost:3010/producto/9087 | POST | Cualquier otro error | Error inesperado | 500 |
 
-## PATCH /productos/:cod
+## PATCH
+### /productos/:cod
 - Permite modificar parcialente un producto existente en la BDs
 - Captura el codigo del producto desde la URL
 - Valida que el codigo sea numerico y mayo a cero
@@ -263,7 +271,8 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
     | http://localhost:3010/producto/9087 | PATCH | Cualquier otro error | Error inesperado | 500 |
 
 
-## DELETE /productos/:cod
+## DELETE
+### /productos/:cod
 
 - Elimina un pproducto de la BDs utilizando su codigo como parámetro
 - Se recibe un `:codigo` de producto por parametro
@@ -392,13 +401,3 @@ ___
 > Grupo 12: 
 > 🎐 Beverly J. L. Gonzalez Casanova
 > 🎐 Romina del Carmen Iurchik 
-
-
-
-
-
-
-
-
-
-

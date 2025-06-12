@@ -261,7 +261,6 @@ app.put('/productos/:cod', async (req, res)=>{
 });
 //<--
 
-
 // Método PATCH
 app.patch('/productos/:cod', async (req, res)=>{
     

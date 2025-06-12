@@ -17,6 +17,8 @@
   - [Diagrama de Flujo](#diagrama-de-flujo)  
   - [Diagrama de Secuencia](#diagrama-de-secuencia)  
 - Autoras
+***
+***
 
 ## Node JS (https://nodejs.org/es)
  Entorno en tiempo de ejecuciónde de JS de código abierto y multiplataforma que perite a los desarrolladores construir aplicaciones de servidor escalables y de alta velocidad.
@@ -29,7 +31,7 @@
  Para inicializar el proyecto en la terminal deberemos escribir:
  ```
     $ npm init -y
-  ```
+ ```
 ## Nodemon
 Dependencia que nos ayuda a automatizar la ejecución de nuestra página web y no andar reiniciando el servidor por cada cambio realizado en nuestro proyecto.
 - En consola instalamos nodemon
@@ -92,8 +94,6 @@ Es un módulo sin dependencias que carga variables de entorno como puertos del s
             const dotenv = require('dotenv');
             dotenv.config();
      ```
-
-
 ## MongoDB 
 - Nos logeamos en https://account.mongodb.com/account/login 
 - Creamos el proyecto Supermercado.  
@@ -106,8 +106,7 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
  ```
     $ npm install mongodb
   ```
-
-### Métodos
+## Métodos
  | Operador | Método | Descripción |
  |:---------|:--------|:-------------|
  | .connect() | client.connect() | Nos permite conectarnos al motor de MongoDB |
@@ -118,33 +117,171 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
  | .findOne() | db.collection().findOne(obj) | Busca un documento en la collección actual, de acuerdo al objeto informado |
 
 
-## API RESTful
-### GET /
-- Ruta principal que devuelve un mensaje
+## GET /
+- Ruta principal que devuelve un mensaje de bienvenida
 
 ```js
     app.get('/', (req, res) => {
         res.status(200).end("🛒 <mensaje> 🛒");
     });
 ```
- - Respuesta de estado: 200, en el get significa que el recurso ha sido recuperado y se transmite el mensaje al body.
+- Posibles  respuestas 
+   | URL | Método | Descripción | Resultado esperado | Código |
+   |:---------:|:--------:|:-------------:|:------------:|:--------:|
+  | http://localhost:3010/ | URL principal | GET | Devuelve 🛒 Bienvenido a APImarket 🛒 | 200 |
 
+## GET /productos
+- Obtenemos la lista completa de productos almacenados en nuestra BDs.
+  - Conecto la BD
+  - Valido la conexión
+  - Traigo mi set de datos
+  - Devuelvo la lista con los productos
+  - Manejo de errores no contemplados
+  - Me desconecto de la BDs
 
+- Posibles  respuestas 
+    | URL | Método | Descripción | Resultado esperado | Código |
+    |:---------:|:--------:|:-------------:|:------------:|:--------:|
+    | http://localhost:3010/productos | URL gral para visualizar todos los productos | GET | Colección de datos completa | 200 |
+    | http://localhost:3010/producto | Ruta inexistente | GET | La página que busca no existe. | 404 |
+    | http://localhost:3010/productos | URL gral para visualizar todos los productos | GET | No puedo mostrar los productos. | 500 |
 
-## Test de validaciones
+## GET /productos/:cod
+- Devuelve un producto especifico según el código enviado como parámetro
+  - Capturo el parámento  `:cod`
+  - Valido que sea un numero mayor o igual a cero
+  - Conecto con la BDs
+  - Busco el producto con código = `:cod`
+  - Me desconecto de la BDs
+  - Si no lo encuentra devuelvo mensaje de error
+  - Si lo encuentra devuelvo el producto
 
-- En este caso, la ruta base de la API REST puede variar en nuestro entorno de pruebas.
+- Posibles respuestas
+    | URL | Método | Descripción | Resultado esperado | Código |
+    |:---------:|:--------:|:-------------:|:------------:|:--------:|
+    | http://localhost:3010/productos/3456 | GET | Consulta por producto existente | Devuelve el documento completo del producto correspondiente | 200 |
+    | http://localhost:3010/productos/5 | GET | Consulta por producto inexistente | Producto inexistente | 404 |
+    | http://localhost:3010/productos/-6 | GET | Código inválido | Código de producto inválido | 400 |
+    | http://localhost:3010/productos/avfr | GET | Código inválido | Código de producto inválido | 400 |    
+
+## GET /categoria/:cat
+- Devuelve todos los productos cuya categoría coincide (parcial/total) con el valor enviado como parámetro
+  - Capturo el parámetro `:cat`
+  - Valido que el valor no esté vacío
+  - Conecto con la BDs
+  - Realizo la busqueda por coincidencia (regex)
+  - Devuelvo los productos encontrados
+  - Me desconecto de la BDs.
+
+- Posibles respuestas
+    | URL | Método | Descripción | Resultado esperado | Código |
+    |:---------:|:--------:|:-------------:|:------------:|:--------:|
+    | http://localhost:3010/categoria/bebidas | GET | Busca productos por categoría | Devuelve los documentos con categoria = "bebidas" | 200 |
+    | http://localhost:3010/categoria/#doble_espacio | GET | Categoria vacia | Categoría invalida | 400 |
+    | http://localhost:3010/categoria/otra | GET | Categoria inexistente | Categoría no encontrada | 404 |
+
+## GET /precio/:precio
+- Devuelve todos los productos cuyo precio sea igual o mayor al valor ingresado por parámetro
+ - Capturo el parámetro `:precio`
+ - Valido que el valor sea un numero mayor o igual a 0
+ - Conecto con la BDs
+ - Realizo la busqueda con precio mayor o igual al solicitado
+ - Devuelvo los resultados, si los hay
+ - Me desconecto de la BDs
   
+- Posibles respuestas
+    | URL | Método | Descripción | Resultado esperado | Código |
+    |:---------:|:--------:|:-------------:|:------------:|:--------:|
+    | http://localhost:3010/precio/15 | GET | Busca precios >= 15 | Devuelve los documentos con ese rango de precio | 200 |
+    | http://localhost:3010/precio/-5 | GET | Precio invalido | Precio invalido | 400 |
+    | http://localhost:3010/precio/1500 | GET | No existen productos con ese precio | Precio no encontrado | 404 |
 
-| URL | Método | Descripción | Resultado esperado | Código |
-|:---------:|:--------:|:-------------:|:------------:|:--------:|
-| http://localhost:3010/ | URL principal | GET | Devuelve 🛒 Bienvenido a APImarket 🛒 | 200 |
-| http://localhost:3010/productos | URL gral para vizualisar todos los productos | GET | Colección de datos completa | 200 |
-| http://localhost:3010/producto | URL gral para vizualisar todos los productos | GET | La página que busca no existe. | 404 |
-| http://localhost:3010/productos | URL gral para vizualisar todos los productos | GET | No puedo mostrar los productos. | 500 |
+## POST /productos
+- Crea un nuevo producto/documento en la BDs
+- Recibe un `body` con los datos del prodcuto a agregar
+- Valida el tipo y contenido de los campos
+  - `codigo`: número positivo
+  - `nombre`: texto no vacío
+  - `precio`: numero mayor o igual a cero
+  - `categoria`:texto no vacio
+- Verifica si ya existe un producto con el mismo código
+- Si pasa las validaciones, lo agrega a la collections Productos
+- Body esperado
+  ```javascript
+      {
+        "codigo" : 101,
+        "nombre" : "Yerba Mate",
+        "precio" : 25.6,
+        "categoria" : "Infusiones"
+      }
+  ```
+  
+- Posibles respuestas
+    | URL | Método | Descripción | Resultado esperado | Código |
+    |:---------:|:--------:|:-------------:|:------------:|:--------:|
+    | http://localhost:3010/producto | POST | Alta de un producto | Created | 201 |
+    | http://localhost:3010/producto | POST | Tipos de datos mal formado | Tipo o tipos de datos inválidos | 400 |
+    | http://localhost:3010/producto | POST | Codigo duplicado | El código del producto ya existe | 409 |
+    | http://localhost:3010/producto | POST | Cualquier otro error | Error inesperado | 500 |
 
-Para saber mas sobre codigos de estados, te recomendamos visitar https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Status
+## PUT /productos/:cod
+- Modifica un producto pero hay que pasarle todo el documento completo
+- Se recibe el body
+- Se validan los datos
+  - `codigo`: numero, obligatorio
+  - `nombre`: string, obligatorio
+  - `precio`: numero, obligatorio
+  - `categoria`: string, obligatorio
+  - El codigo que viene por params es el que se busca y se reemplaza
+- Verifica que el codigo de `params` sea valido
+- Se controla la estructura de body
+- Cierro la conexion
+  
+- Posibles respuestas
+    | URL | Método | Descripción | Resultado esperado | Código |
+    |:---------:|:--------:|:-------------:|:------------:|:--------:|
+    | http://localhost:3010/producto/9087 | PUT | Modificacion de un producto | OK | 200 |
+    | http://localhost:3010/producto/9087 | PUT | Faltante de informacion en el body | Tipo o tipos de datos inválidos o faltan dantos, recuerde que debe ingresar TODA la información del documento | 400 |
+    | http://localhost:3010/producto/007 | PUT | El codigo buscado no existe | El producto a modificar no existe | 404 |
+    | http://localhost:3010/producto/9087 | POST | Cualquier otro error | Error inesperado | 500 |
 
+## PATCH /productos/:cod
+- Permite modificar parcialente un producto existente en la BDs
+- Captura el codigo del producto desde la URL
+- Valida que el codigo sea numerico y mayo a cero
+- Valida que los datos enviados en el cuerpo de la solicitud sean válidos
+- Conecta a la BDs
+- Hace la validacion si el producto existe, actualiza o manda mensaje de error
+- Cierra la conexion
+
+- Posibles respuestas
+    | URL | Método | Descripción | Resultado esperado | Código |
+    |:---------:|:--------:|:-------------:|:------------:|:--------:|
+    | http://localhost:3010/producto/8745 | PATCH | Modificacion de un precio | OK | 200 |
+    | http://localhost:3010/producto/874599| PATCH | Producto inexistente | El producto a modificar no existe | 404 |
+    | http://localhost:3010/producto/8745| PATCH | nombre vacio en el body | nombre invalido | 400 |
+    | http://localhost:3010/producto/9087 | PATCH | Cualquier otro error | Error inesperado | 500 |
+
+
+## DELETE /productos/:cod
+
+- Elimina un pproducto de la BDs utilizando su codigo como parámetro
+- Se recibe un `:codigo` de producto por parametro
+- Se valida que sea mayor o igual a cero
+- Se hace la conexión con la BDs
+- Si existe el `:codigo` se elimina el mismo
+- Sino se maneja la situacion o error correspondiente
+- Se cierra la conexion a la BDS
+
+- Posibles respuestas
+    | URL | Método | Descripción | Resultado esperado | Código |
+    |:---------:|:--------:|:-------------:|:------------:|:--------:|
+    | http://localhost:3010/producto/1198 | DELETE | Elimino un producto | No Content | 204 |
+    | http://localhost:3010/producto/161616 | DELETE | Codigo inexistente pero valido | No se encontro el codigo ingresado | 404 |
+    | http://localhost:3010/producto/avw | DELETE | Código inválido | El formato es erroneo o inváñido | 400 |
+    | http://localhost:3010/producto/error | DELETE | Error inesperado | Se produjo un error al intentar eliminar el productoa | 500 |
+
+***
 ## Diagramas
 ### Diagrama de Flujo
 

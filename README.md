@@ -13,6 +13,9 @@
   - PUT
   - DELETE
 - [Test de Validaciones](#testdevalidaciones)
+- [Diagramas](#diagramas)  
+  - [Diagrama de Flujo](#diagrama-de-flujo)  
+  - [Diagrama de Secuencia](#diagrama-de-secuencia)  
 - Autoras
 
 ## Node JS (https://nodejs.org/es)
@@ -140,8 +143,32 @@ Ya en nuestro proyecto instalamos a través de la consola MongoDB Driver
 | http://localhost:3010/producto | URL gral para vizualisar todos los productos | GET | La página que busca no existe. | 404 |
 | http://localhost:3010/productos | URL gral para vizualisar todos los productos | GET | No puedo mostrar los productos. | 500 |
 
+Para saber mas sobre codigos de estados, te recomendamos visitar https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Status
+
+## Diagramas
+### Diagrama de Flujo
+
+Este diagrama muestra el flujo general para la configuración y ejecución de la API RESTful, desde la instalación de dependencias hasta la definición y escucha de las rutas.
+
 ```mermaid
+%% Diagrama de flujo 
 graph TD
+  style A fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style B fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style C fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style D fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style E fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style F fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style G fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style H fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style I fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style J fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style K fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style L fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style M fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style N fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+  style O fill:#0d6e36,stroke:#fff,stroke-width:2px,color:#ffffff,font-weight:bold
+
   A[Inicio] --> B[Instalación de MongoDB Driver + Express.js]
   B --> C[Requerir dotenv y configurar variables de entorno]
   C --> D[Crear archivo mongodb.js con funciones de conexión/desconexión]
@@ -159,6 +186,10 @@ graph TD
 
   N --> O[Middleware 404 y escucha en puerto]
 ```
+***
+
+### Diagrama de Secuencia
+Este diagrama ilustra la interacción entre cliente, servidor Express y MongoDB para cada petición REST: consulta, inserción, actualización y eliminación.
 
 ```mermaid
 sequenceDiagram
@@ -216,13 +247,9 @@ sequenceDiagram
   MongoDB-->>Express: Buscar y eliminar
   Express->>MongoDB: Desconectar
   Express-->>-Cliente: Producto eliminado o error
+
 ```
-
-
-
-Para saber mas sobre codigos de estados, te recomendamos visitar https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Status
-
-
+___
 
 ## Autoras
 > Grupo 12: 

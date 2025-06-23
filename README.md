@@ -5,7 +5,7 @@
 - [Nodemon](#nodemon)
 - [Express](#express)
 - [`dotenv (.env)`](#dotenv)
-  - Variables de entorno utilizadas
+  - [Variables utilizadas](#variables-utilizadas)
 - [MongoDB](#mongodb)
   - [Métodos](#métodos)
 - Uso de la API
@@ -95,7 +95,7 @@ Es un módulo sin dependencias que carga variables de entorno como puertos del s
             const dotenv = require('dotenv');
             dotenv.config();
      ```
-## Variables de Entorno utilizadas
+## Variables utilizadas
 - PORT: establecemos el puerto
 - MONGODB_URLSTRING: es donde se guarda la conexion a mongo
 
